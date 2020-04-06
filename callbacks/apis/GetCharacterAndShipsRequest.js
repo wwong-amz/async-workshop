@@ -1,39 +1,49 @@
 const request = require('request');
-const getShipIds = require('../../utils/GetShipIds')
+const getShipIds = require('../../utils/GetShipIds');
+const getStarWarsCharacterRequet = require('./GetStarWarsCharacterRequest')
 
-const getCharacterAndShipsRequest = (callback, charId) => {
-  let characterAndShips = {}
-  request(`https://swapi.co/api/people/${charId}/`, (error, response, body) => {
-    if (error) {
-      return callback(error, null)
+
+const getCharacterAndShipsRequest = (charId, callback) => {
+  getStarWarsCharacterRequet(charId, function(err, char){
+    if (err) {
+      console.log(err)
     } else {
-      let ships = [];
-      const character = JSON.parse(body)
-      let shipIds = getShipIds(character.starships);
-      characterAndShips.character = character
-      for (let i = 0; i < shipIds.length; i++) {
-          getShipCallback(function (err, data) {
-            if (err) {
-              console.log(err)
-            } else {
-              ships.push(data)
-            }
-            if (i === shipIds.length - 1) {
-              characterAndShips.ship = ships
-              return callback(null, characterAndShips)
-            }
-          }, shipIds[i])
-      }
+      const shipIds = getShipIds(char.starships);
+      getShips(shipIds, function(err, ships) {
+        if(err) {
+          console.log(err)
+        } else {
+          callback(null, { char, ships })
+        }
+      })
     }
   })
 }
 
-const getShipCallback = (callback, shipId) => {
+
+
+const getShips = (shipIds, callback) => {
+  let ships = []
+  for (let i = 0; i < shipIds.length; i++ ) {
+    getShipCallback(shipIds[i], function(err, data) {
+      if (err) {
+        console.log(err)
+      } else {
+        ships.push(data)
+      }
+      if (i === shipIds.length - 1) {
+        callback(null, ships)
+      }
+    })
+  }
+}
+
+const getShipCallback = (shipId, callback) => {
   request(`https://swapi.co/api/starships/${shipId}`, (error, response, body) => {
     if (error) {
-      return callback(error, null)
+      callback(error, null)
     } else {
-      return callback(null, JSON.parse(body))
+      callback(null, JSON.parse(body))
     }
   })
 }

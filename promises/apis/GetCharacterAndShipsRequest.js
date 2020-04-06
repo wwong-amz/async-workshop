@@ -7,24 +7,25 @@ const getShipIds = require('../../utils/GetShipIds')
 // REMOVE UNNECESSAY CHAINS
 // CLEAN CHAINING SYNTAX
 const getCharacterAndShips = (charId) => {
+  let character;
   return axios.get(`https://swapi.co/api/people/${charId}/`)
     .then(response => {
-      const character = response.data
+      character = response.data
       const shipIds = getShipIds(character.starships)
       const shipPromises = shipIds.map(id => {
         return axios.get(`https://swapi.co/api/starships/${id}`)
       })
       return Promise.all(shipPromises)
-      .then(responses => {
-        let ships = []
-        responses.forEach(response => {
-          ships.push(response.data)
-        })
-        return {
-          character,
-          ships
-        }
+    })
+    .then(responses => {
+      let ships = []
+      responses.forEach(response => {
+        ships.push(response.data)
       })
+      return {
+        character,
+        ships
+      }
     })
     .catch(err => {
       throw err

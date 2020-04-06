@@ -28,3 +28,4 @@ const getMultipleCharacters = (charIds) => {
 
 
 // getStarWarsCharacter(1);
+getCharacterAndShips(1);

@@ -3,19 +3,19 @@ const getCharacterAndShipsRequest = require('./apis/GetCharacterAndShipsRequest'
 const getMultipleCharactersRequest = require('./apis/GetMultipleCharactersRequest');
 
 const getStarWarsCharacter = (charId) => {
-  getStarWarsCharacterRequest(function(err, data){
+  getStarWarsCharacterRequest(charId, function(err, data){
     if (err) console.log(err)
     console.log(data)
     return data
-  }, charId)
+  })
 }
 
 const getCharacterAndStarShips = (charId) => {
-  getCharacterAndShipsRequest(function(err, data) {
+  getCharacterAndShipsRequest(charId, function(err, data) {
     if (err) console.log(err)
     console.log(' HELLOOOOOOOOO', data)
     return data
-  }, charId)
+  })
 }
 
 const getMultipleCharacters = (charIds) => {
@@ -27,5 +27,5 @@ const getMultipleCharacters = (charIds) => {
 }
 
 // getStarWarsCharacter(1);
-// getCharacterAndStarShips(1);
-getMultipleCharacters([1, 2, 3]);
+getCharacterAndStarShips(1);
+// getMultipleCharacters([1, 2, 3]);
