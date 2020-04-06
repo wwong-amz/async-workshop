@@ -1,35 +1,39 @@
 const request = require('request');
+const getShipIds = require('../../utils/GetShipIds')
 
-const getCharacterAndShipsRequest = (callback, charId) => { 
+const getCharacterAndShipsRequest = (callback, charId) => {
   let characterAndShips = {}
   request(`https://swapi.co/api/people/${charId}/`, (error, response, body) => {
     if (error) {
-      return callback(null, error)
+      return callback(error, null)
     } else {
-      let shipIds = [];
       let ships = [];
       const character = JSON.parse(body)
+      let shipIds = getShipIds(character.starships);
       characterAndShips.character = character
-      const shipList = character.starships
-      shipList.forEach(ship => {
-        shipIds.push(ship.split('/')[5])
-      })
-      console.log(shipIds)
-      for(let i = 0; i < shipIds.length; i++) {
-        request(`https://swapi.co/api/starships/${shipIds[i]}`, (error, response, body) => {
-          if (error) {
-            callback(null, error)
-          } else {
-            if (i === shipIds.length - 1) {
-              ships.push(JSON.parse(body))
-              characterAndShips.ships = ships
-              return callback(characterAndShips, false)
+      for (let i = 0; i < shipIds.length; i++) {
+          getShipCallback(function (err, data) {
+            if (err) {
+              console.log(err)
             } else {
-              ships.push(JSON.parse(body))
+              ships.push(data)
             }
-          }
-        })
+            if (i === shipIds.length - 1) {
+              characterAndShips.ship = ships
+              return callback(null, characterAndShips)
+            }
+          }, shipIds[i])
       }
+    }
+  })
+}
+
+const getShipCallback = (callback, shipId) => {
+  request(`https://swapi.co/api/starships/${shipId}`, (error, response, body) => {
+    if (error) {
+      return callback(error, null)
+    } else {
+      return callback(null, JSON.parse(body))
     }
   })
 }

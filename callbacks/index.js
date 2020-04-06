@@ -13,16 +13,15 @@ const getStarWarsCharacter = (charId) => {
 const getCharacterAndStarShips = (charId) => {
   getCharacterAndShipsRequest(function(err, data) {
     if (err) console.log(err)
-    console.log(data)
+    console.log(' HELLOOOOOOOOO', data)
     return data
   }, charId)
 }
 
-
 const getMultipleCharacters = (charIds) => {
   getMultipleCharactersRequest(function(err, data){
     if (err) console.log(err)
-    // console.log(data)
+    console.log(data)
     return data
   }, charIds)
 }

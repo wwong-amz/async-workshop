@@ -12,7 +12,7 @@ const getStarWarsCharacter = (charId) => {
 
 const getCharacterAndShips = (charId) => {
   try {
-    return getCharacterAndShipesRequest();
+    return getCharacterAndShipesRequest(charId);
   } catch (error) {
     throw error
   }
@@ -20,11 +20,11 @@ const getCharacterAndShips = (charId) => {
 
 const getMultipleCharacters = (charIds) => {
   try {
-    return getMultipleCharactersRequest();
+    return getMultipleCharactersRequest(charIds);
   } catch (error) {
     throw error
   }
 }
 
 
-getStarWarsCharacter(1);
+// getStarWarsCharacter(1);

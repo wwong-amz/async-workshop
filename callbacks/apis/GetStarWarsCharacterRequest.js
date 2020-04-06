@@ -2,11 +2,10 @@ const request = require('request');
 
 const getStarWarsCharacterRequest = (callback, charId) => {
   request(`https://swapi.co/api/people/${charId}/`, (error, response, body) => {
-    if(!error && response.statusCode === 200) {
-      const result = JSON.parse(body)
-      return callback(result, false)
+    if (error) {
+      return callback(error, null)
     } else {
-      return callback(null, error)
+      return callback(null, JSON.parse(body));
     }
   })
 }

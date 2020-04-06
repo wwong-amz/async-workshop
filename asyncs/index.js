@@ -39,5 +39,5 @@ const getMultipleCharacters = async (charIds) => {
 }
 
 // getStarWarsCharacter(1);
-// getCharacterAndShips(1);
+getCharacterAndShips(1);
 // getMultipleCharacters([1, 2, 3]);
