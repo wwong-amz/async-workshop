@@ -1,4 +1,4 @@
-const getStartWarsCharacterRequest = require('./apis/GetStarWarsCharacterRequest');
+const getStartWarsCharacterRequest = require('.././swapi/swapi.axios').getStarWarsCharacterRequest;
 const getCharacterAndShipsRequest = require('./apis/GetCharacterAndShipsRequest');
 const getMultipleCharactersRequest = require('./apis/GetMultipleCharactersRequest');
 

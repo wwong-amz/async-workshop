@@ -1,6 +1,7 @@
 const request = require('request');
 const getShipIds = require('../../utils/GetShipIds');
-const getStarWarsCharacterRequet = require('./GetStarWarsCharacterRequest')
+const getStarWarsCharacterRequet = require('../../swapi/swapi.request').getStarWarsCharacterRequest;
+const getShipCallback = require('../../swapi/swapi.request').getShipCallback;
 
 
 const getCharacterAndShipsRequest = (charId, callback) => {
@@ -38,14 +39,6 @@ const getShips = (shipIds, callback) => {
   }
 }
 
-const getShipCallback = (shipId, callback) => {
-  request(`https://swapi.co/api/starships/${shipId}`, (error, response, body) => {
-    if (error) {
-      callback(error, null)
-    } else {
-      callback(null, JSON.parse(body))
-    }
-  })
-}
+
 
 module.exports = getCharacterAndShipsRequest;

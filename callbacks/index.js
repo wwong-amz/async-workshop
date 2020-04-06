@@ -1,4 +1,4 @@
-const getStarWarsCharacterRequest = require('./apis/GetStarWarsCharacterRequest');
+const getStarWarsCharacterRequest = require('.././swapi/swapi.request').getStarWarsCharacterRequest;
 const getCharacterAndShipsRequest = require('./apis/GetCharacterAndShipsRequest');
 const getMultipleCharactersRequest = require('./apis/GetMultipleCharactersRequest');
 
@@ -26,6 +26,6 @@ const getMultipleCharacters = (charIds) => {
   }, charIds)
 }
 
-// getStarWarsCharacter(1);
-getCharacterAndStarShips(1);
+getStarWarsCharacter(1);
+// getCharacterAndStarShips(1);
 // getMultipleCharacters([1, 2, 3]);

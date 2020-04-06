@@ -1,6 +1,6 @@
 const axios = require('axios');
 const getShipIds = require('../../utils/GetShipIds');
-const getStarWarsCharacterRequest = require('./GetStarWarsCharacterRequest');
+const getStarWarsCharacterRequest = require('../../swapi/swapi.axios').getStarWarsCharacterRequest;
 
 // Refactor to use wrapper function for api calls and the new util functoins
 // Write a getShip functions
