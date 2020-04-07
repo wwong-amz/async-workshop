@@ -1,4 +1,3 @@
-const axios = require('axios');
 const getShipIds = require('../../utils/GetShipIds');
 const getStarWarsCharacterWithAxios = require('../../swapi/swapi.axios').getStarWarsCharacterWithAxios;
 const getShipWithAxios = require('../../swapi/swapi.axios').getShipWithAxios

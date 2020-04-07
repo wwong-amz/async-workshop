@@ -5,6 +5,4 @@ const getMultipleCharactersPromiseWithAxios = (charIds) => {
   return Promise.all(characters)
 }
 
-getMultipleCharactersPromiseWithAxios([1, 2, 3]).then(res => console.log(res))
-
 module.exports = getMultipleCharactersPromiseWithAxios;

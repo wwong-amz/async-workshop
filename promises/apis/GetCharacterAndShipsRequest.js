@@ -2,10 +2,7 @@ const getShipIds = require('../../utils/GetShipIds')
 const getShipPromiseWithAxios = require('../../swapi/swapi.axios').getShipPromiseWithAxios
 const getStarWarsCharacterPromiseWithAxios = require('../../swapi/swapi.axios').getStarWarsCharacterPromiseWithAxios
 
-// TODO: 
-// EXTRACT HELPER FUNCTIONS
-// REMOVE UNNECESSAY CHAINS
-// CLEAN CHAINING SYNTAX
+
 const getCharacterAndShips = (charId) => {
   return getStarWarsCharacterPromiseWithAxios(charId)
     .then(response => {

@@ -10,7 +10,6 @@ const getShips = (shipIds, callback) => {
       callback(err, null)
     }
     ships.push(ship);
-    console.log (ships)
     if (ships.length === shipIds.length) {
       callback(null, ships)
     }
@@ -20,17 +19,19 @@ const getShips = (shipIds, callback) => {
   }
 }
 
-const getCharacterAndShipsRequest = (charId, callback) => {
-  function characterAndShipsCallback (character) {
-    return function(err, ships) {
-      callback(err, { character, ships });
-    }
+function characterAndShipsCallback (character, callback) {
+  return function(err, ships) {
+    console.log(character)
+    callback(err, { character, ships });
   }
+}
+
+const getCharacterAndShipsRequest = (charId, callback) => {
   getStarWarsCharacterWithRequest(charId, function(err, char){
     if (err) {
       callback(err)
     } else {
-      const done = characterAndShipsCallback(char)
+      const done = characterAndShipsCallback(char, callback)
       const shipIds = getShipIds(char.starships);
       getShips(shipIds, done);
     }
