@@ -1,27 +1,21 @@
-const axios = require('axios')
 const getShipIds = require('../../utils/GetShipIds')
-
+const getShipPromiseWithAxios = require('../../swapi/swapi.axios').getShipPromiseWithAxios
+const getStarWarsCharacterPromiseWithAxios = require('../../swapi/swapi.axios').getStarWarsCharacterPromiseWithAxios
 
 // TODO: 
 // EXTRACT HELPER FUNCTIONS
 // REMOVE UNNECESSAY CHAINS
 // CLEAN CHAINING SYNTAX
 const getCharacterAndShips = (charId) => {
-  let character;
-  return axios.get(`https://swapi.co/api/people/${charId}/`)
+  return getStarWarsCharacterPromiseWithAxios(charId)
     .then(response => {
-      character = response.data
+      const character = response
       const shipIds = getShipIds(character.starships)
-      const shipPromises = shipIds.map(id => {
-        return axios.get(`https://swapi.co/api/starships/${id}`)
-      })
-      return Promise.all(shipPromises)
+      const shipPromises = shipIds.map(id => getShipPromiseWithAxios(id))
+      return Promise.all([character, ...shipPromises])
     })
     .then(responses => {
-      let ships = []
-      responses.forEach(response => {
-        ships.push(response.data)
-      })
+      const [character, ...ships] = responses
       return {
         character,
         ships

@@ -1,13 +1,10 @@
-const axios = require('axios');
+const getStarWarsCharacterPromiseWithAxios = require('../../swapi/swapi.axios').getStarWarsCharacterPromiseWithAxios;
 
-const getMultipleCharactersRequest = (charIds) => {
-  const characterPromises = charIds.map(id => {
-    return axios.get(`https://swapi.co/api/people/${id}`)
-  })
-  return Promise.all(characterPromises)
-  .then(responses => {
-    return responses.map(response => response.data)
-  })
+const getMultipleCharactersPromiseWithAxios = (charIds) => {
+  const characters = charIds.map(id => getStarWarsCharacterPromiseWithAxios(id))
+  return Promise.all(characters)
 }
 
-module.exports = getMultipleCharactersRequest;
+getMultipleCharactersPromiseWithAxios([1, 2, 3]).then(res => console.log(res))
+
+module.exports = getMultipleCharactersPromiseWithAxios;

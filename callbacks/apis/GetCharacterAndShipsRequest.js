@@ -1,43 +1,44 @@
-const request = require('request');
 const getShipIds = require('../../utils/GetShipIds');
-const getStarWarsCharacterRequet = require('../../swapi/swapi.request').getStarWarsCharacterRequest;
-const getShipCallback = require('../../swapi/swapi.request').getShipCallback;
+const getStarWarsCharacterWithRequest = require('../../swapi/swapi.request').getStarWarsCharacterWithRequest;
+const getShipWithRequest = require('../../swapi/swapi.request').getShipWithRequest;
 
+
+const getShips = (shipIds, callback) => {
+  let ships = []
+  function getShipCallback (err, ship) {
+    if (err) {
+      callback(err, null)
+    }
+    ships.push(ship);
+    console.log (ships)
+    if (ships.length === shipIds.length) {
+      callback(null, ships)
+    }
+  }
+  for (let i = 0; i < shipIds.length; i++) {
+    getShipWithRequest(shipIds[i], getShipCallback);
+  }
+}
 
 const getCharacterAndShipsRequest = (charId, callback) => {
-  getStarWarsCharacterRequet(charId, function(err, char){
+  function characterAndShipsCallback (character) {
+    return function(err, ships) {
+      callback(err, { character, ships });
+    }
+  }
+  getStarWarsCharacterWithRequest(charId, function(err, char){
     if (err) {
-      console.log(err)
+      callback(err)
     } else {
+      const done = characterAndShipsCallback(char)
       const shipIds = getShipIds(char.starships);
-      getShips(shipIds, function(err, ships) {
-        if(err) {
-          console.log(err)
-        } else {
-          callback(null, { char, ships })
-        }
-      })
+      getShips(shipIds, done);
     }
   })
 }
 
 
 
-const getShips = (shipIds, callback) => {
-  let ships = []
-  for (let i = 0; i < shipIds.length; i++ ) {
-    getShipCallback(shipIds[i], function(err, data) {
-      if (err) {
-        console.log(err)
-      } else {
-        ships.push(data)
-      }
-      if (i === shipIds.length - 1) {
-        callback(null, ships)
-      }
-    })
-  }
-}
 
 
 

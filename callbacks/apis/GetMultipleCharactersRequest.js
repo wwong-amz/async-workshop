@@ -1,18 +1,19 @@
-const request = require('request');
+const getStarWarsCharacterWithRequest = require('../../swapi/swapi.request').getStarWarsCharacterWithRequest;
+
 
 const getMultipleCharactersRequest = (callback, charIds) => {
   let characters = [];
+  function getCharacterCallback (err, char) {
+    if (err) {
+      callback(err, null);
+    }
+    characters.push(char)
+    if (characters.length === charIds.length) {
+      callback(null, characters);
+    }
+  }
   for (let i = 0; i < charIds.length; i++) {
-    request(`https://swapi.co/api/people/${charIds[i]}`, (error, response, body) => {
-      if (error) {
-        return callback(null, error)
-      } else {
-        characters.push(JSON.parse(body));
-        if (i === charIds.length - 1) {
-          return callback(null, characters);
-        }
-      }
-    })
+    getStarWarsCharacterWithRequest(charIds[i], getCharacterCallback)
   }
 }
 

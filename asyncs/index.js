@@ -1,11 +1,11 @@
-const getStartWarsCharacterRequest = require('.././swapi/swapi.axios').getStarWarsCharacterRequest;
-const getCharacterAndShipsRequest = require('./apis/GetCharacterAndShipsRequest');
-const getMultipleCharactersRequest = require('./apis/GetMultipleCharactersRequest');
+const getStarWarsCharacterWithAxios = require('.././swapi/swapi.axios').getStarWarsCharacterWithAxios;
+const getCharacterAndShipsWithAxios = require('./apis/GetCharacterAndShipsRequest');
+const getMultipleCharactersWithAxios = require('./apis/GetMultipleCharactersRequest');
 
 
 const getStarWarsCharacter = async (charId) => {
   try {
-    const character = await getStartWarsCharacterRequest(charId);
+    const character = await getStarWarsCharacterWithAxios(charId);
     console.log(character)
     return character;
   } catch (error) {
@@ -15,7 +15,7 @@ const getStarWarsCharacter = async (charId) => {
 
 const getCharacterAndShips = async (charId) => {
   try {
-    const response = await getCharacterAndShipsRequest(charId)
+    const response = await getCharacterAndShipsWithAxios(charId)
     console.log(response)
     const character = response.character;
     const ships = response.ships
@@ -30,7 +30,7 @@ const getCharacterAndShips = async (charId) => {
 
 const getMultipleCharacters = async (charIds) => {
   try {
-    const response = await getMultipleCharactersRequest(charIds)
+    const response = await getMultipleCharactersWithAxios(charIds)
     console.log(response)
     return response
   } catch (error) {
@@ -38,6 +38,6 @@ const getMultipleCharacters = async (charIds) => {
   }
 }
 
-// getStarWarsCharacter(1);
-getCharacterAndShips(1);
+getStarWarsCharacter(1);
+// getCharacterAndShips(1);
 // getMultipleCharacters([1, 2, 3]);
